@@ -1,0 +1,25 @@
+## Test description
+I would like you to create a follow application:
+
+- create small application that allows to input URL of walmart product for example:
+http://www.walmart.com/ip/Ematic-9-Dual-Screen-Portable-DVD-Player-with-Dual-DVD-Players-ED929D/28806789
+- install the app on heroku
+- program should save to database: name of the product and it's price
+- program should than save into database ALL the reviews for a given product
+
+1) how do you assure that when you rerun the program for the same product
+there no duplicates are created? (either in products or reviews)
+2) Please use the best practices
+3) Please document all the choices and possible side effects
+
+## Done
+
+# Created models Product and Review
+
+# Review is unique within a product(has unique author)
+
+# Create services
+ - WalmartAdapter is responsible for pulling data from Walmart Open API
+ - ProductCreator creates product and reviews for a product, and checks
+   validation errors if any.
+ - UrlParser was going to pars url and return code of the product

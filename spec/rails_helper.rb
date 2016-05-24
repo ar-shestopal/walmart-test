@@ -93,3 +93,27 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+module Support
+  module ModelsHelpers
+    def stub_walmart_api
+      @code = '0000'
+      allow(WalmartAdapter).to receive(:get)
+        .with("/items/#{@code}?"\
+              "apiKey=#{WalmartAdapter::API_KEY}&format=json")
+        .and_return({'name' => 'Name', 'price' => 1.1 })
+
+      allow(WalmartAdapter).to receive(:get)
+        .with("/reviews/#{@code}?"\
+              "apiKey=#{WalmartAdapter::API_KEY}&format=json")
+        .and_return({'reviews' => [{"overallRating"=>{"label"=>"Overall",
+                                                      "rating"=>"3"},
+                                    "reviewer"=>"NurseParker"}]})
+    end
+  end
+end
+
+RSpec.configure do |config|
+  config.include Support::ModelsHelpers, type: :model
+  config.include Support::ModelsHelpers, type: :controller
+end
